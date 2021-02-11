@@ -41,7 +41,7 @@ checkTask=setInterval(alertFunc, 30000);
             if(taskObj.delayStatus[i])
             taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
             else
-            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.date[i]+"<br>";
+            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
            }
            document.getElementById("taskListf").innerHTML = taskStringCurrent;
            document.getElementById("taskListd").innerHTML = taskStringDelay;
