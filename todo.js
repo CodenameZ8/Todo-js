@@ -91,10 +91,23 @@ checkTask=setInterval(alertFunc, 30000);
             var currentDate=current.getDate();
             var taskDateVar=new Date(taskObj.date[id]);
             var n=taskDateVar.getDate();
+            var lastDayOfMonth = new Date(taskDateVar.getFullYear(),taskDateVar.getMonth()+1,0);
+            var lastDayOfMonthc = new Date(current.getFullYear(),current.getMonth()+1,0);
+            if(currentDate==lastDayOfMonthc)
+            {
+                if(taskDateVar==0&&taskDateVar.getMonth()==current.getMonth()-1)
+                return "yesterday";                
+            }
+            if(n==lastDayOfMonth)
+            {
+                if(currentDate==0&&taskDateVar.getMonth()==current.getMonth()+1)
+                return "tomorrow";                
+            }
+
             if(taskDateVar.getMonth()==current.getMonth()&&taskDateVar.getFullYear()==current.getFullYear()){
                 if(currentDate==n)
                 return "Today"; 
-            if(currentDate-1==n)
+            if(currentDate-1==n&&taskDateVar)
                 return "Yesterday";
             else if(currentDate+1==n)
                 return "Tomorrow";
