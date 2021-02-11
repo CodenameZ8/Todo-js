@@ -29,7 +29,7 @@ checkTask=setInterval(alertFunc, 30000);
             taskObj.date.push(document.getElementsByName("taskDate")[0].value);
             taskObj.time.push(document.getElementsByName("taskTime")[0].value);
             taskObj.dateObj.push(convertDate());
-            //console.log(document.getElementsByName("taskTime")[0].value);
+            
 
 
         }
