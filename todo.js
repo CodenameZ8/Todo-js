@@ -1,4 +1,4 @@
-//var checkTask;
+var checkTask;
 var taskObj={
     task:[],
     date:[],
@@ -6,7 +6,7 @@ var taskObj={
     dateObj:[],
     delayStatus:[]
 };
-//checkTask=setInterval(alertFunc, 30000);
+checkTask=setInterval(alertFunc, 30000);
         function addTask(){
             getData();
             displayData();
@@ -31,7 +31,7 @@ var taskObj={
             taskObj.task.push(document.getElementsByName("task")[0].value);
             taskObj.date.push(document.getElementsByName("taskDate")[0].value);
             taskObj.time.push(document.getElementsByName("taskTime")[0].value);
-            taskObj.dateObj.push(convertDate());
+            taskObj.dateObj.push(convertDate());//update status
             //console.log(taskTime);
             //if(currentTime>taskTime)
               //  taskObj.delayStatus=true;
@@ -41,7 +41,7 @@ var taskObj={
             var taskStringCurrent= "",taskStringDelay="",i,len=taskObj.task.length
             for(i=0;i<len;i++)
            {
-            console.log(taskObj.delayStatus[i]);
+            //console.log(taskObj.delayStatus[i]);
             if(taskObj.delayStatus[i])
             taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+taskObj.time[i]+"<br>";
             else
@@ -51,17 +51,24 @@ var taskObj={
            document.getElementById("taskListd").innerHTML = taskStringDelay;
            document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been modified";
         }
-        /*function alertFunc() {
-            var current =new Date().getTime();
+        function alertFunc() {
+            displayData();
+
+            //var current =new Date().getTime();
             
             for(var i=0;i<taskObj.dateObj.length;i++)
             {
-                //console.log(taskObj.dateObj[i].getTime());
-                if(current>taskObj.dateObj[i].getTime()){
-                    prompt(passed(i))
+            var currentTime =new Date().getTime();
+            if(currentTime>taskObj.dateObj[i].getTime())
+                taskObj.delayStatus[i]=true;
+            else     
+                taskObj.delayStatus[i]=false;
+                
+            //console.log("called for "+taskObj.task[i]+"Status ="+taskObj.delayStatus[i]);
+                //if(current>taskObj.dateObj[i].getTime()){
+                 //   prompt(passed(i))
                 }
             }       
-          }*/
 
         function convertDate(){
             var dateString =document.getElementsByName("taskDate")[0].value+'T'+document.getElementsByName("taskTime")[0].value+':00';
