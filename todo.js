@@ -1,5 +1,4 @@
 //var checkTask;
-var currentTime =new Date().getTime();
 var taskObj={
     task:[],
     date:[],
@@ -23,6 +22,7 @@ var taskObj={
                 taskObj.task.splice(deleteID,1);
                 taskObj.date.splice(deleteID,1);
                 taskObj.time.splice(deleteID,1);
+                taskObj.delayStatus.splice(deleteID,1);
                 document.getElementById("taskList").innerHTML =`${deleteID+1}`+":"+taskObj.task[deleteID]+" Has been removed";
                 displayData();
             }
@@ -32,23 +32,24 @@ var taskObj={
             taskObj.date.push(document.getElementsByName("taskDate")[0].value);
             taskObj.time.push(document.getElementsByName("taskTime")[0].value);
             taskObj.dateObj.push(convertDate());
-            console.log(taskTime);
-            if(currentTime>taskTime)
-                taskObj.delayStatus=true;
-                else taskObj.delayStatus=false;
+            //console.log(taskTime);
+            //if(currentTime>taskTime)
+              //  taskObj.delayStatus=true;
+               // else taskObj.delayStatus=false;
         }
         function displayData(){
             var taskStringCurrent= "",taskStringDelay="",i,len=taskObj.task.length
             for(i=0;i<len;i++)
            {
-            if(task.dateObj.delayStatus)
+            console.log(taskObj.delayStatus[i]);
+            if(taskObj.delayStatus[i])
             taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+taskObj.time[i]+"<br>";
             else
             taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+taskObj.time[i]+"<br>";
            }
-           document.getElementById("taskListf").innerHTML = taskString;
+           document.getElementById("taskListf").innerHTML = taskStringCurrent;
            document.getElementById("taskListd").innerHTML = taskStringDelay;
-           document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been added";
+           document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been modified";
         }
         /*function alertFunc() {
             var current =new Date().getTime();
@@ -65,9 +66,19 @@ var taskObj={
         function convertDate(){
             var dateString =document.getElementsByName("taskDate")[0].value+'T'+document.getElementsByName("taskTime")[0].value+':00';
             var convertDate= new Date(dateString);
+            updateDelayStatus(convertDate);
             //console.log(convertDate);
             //setTimeout(passed,convertDate-Date.now());
             return convertDate;
+        }
+        function updateDelayStatus(convertDate){
+            var currentTime =new Date().getTime();
+            if(currentTime>convertDate.getTime())
+                taskObj.delayStatus.push(true);
+            else     
+                taskObj.delayStatus.push(false);
+
+        //console.log(taskObj.delayStatus[0]);
         }
         function passIsDue(id){
             return taskObj.task[id]+"is due";
