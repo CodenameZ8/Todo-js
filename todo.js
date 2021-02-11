@@ -97,6 +97,6 @@ checkTask=setInterval(alertFunc, 30000);
             else if(currentDate+1==n)
                 return "Tomorrow";
             else 
-                return taskDateVar.toDateString();            
+                return taskDateVar.toDateString().slice(0, -7);            
 
         }
