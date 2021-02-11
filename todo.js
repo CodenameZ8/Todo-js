@@ -39,9 +39,9 @@ checkTask=setInterval(alertFunc, 30000);
             for(i=0;i<len;i++)
            {
             if(taskObj.delayStatus[i])
-            taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+getDate(i)+"<br>";
+            taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
             else
-            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+getDate(i)+"<br>";
+            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.date[i]+"<br>";
            }
            document.getElementById("taskListf").innerHTML = taskStringCurrent;
            document.getElementById("taskListd").innerHTML = taskStringDelay;
@@ -90,11 +90,12 @@ checkTask=setInterval(alertFunc, 30000);
             var currentDate =new Date().getDate();
             var taskDateVar=new Date(taskObj.date[id]);
             var n=taskDateVar.getDate();     
-            console.log(n);
             if(currentDate==n)
-                return "today";
+                return "Today"; 
+            if(currentDate-1==n)
+                return "Yesterday";
             else if(currentDate+1==n)
-                return "tomorrow";
+                return "Tomorrow";
             else 
                 return taskDateVar.toDateString();            
 
