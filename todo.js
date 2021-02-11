@@ -14,8 +14,6 @@ checkTask=setInterval(alertFunc, 30000);
         function deleteTask(){
             let deleteValue=document.getElementsByName("taskDelete")[0].value;
             var deleteID=parseInt(deleteValue)-1;
-            
-           // console.log()
             if(typeof deleteID !='number')
                 prompt("Enter proper ID");
             else {
@@ -31,31 +29,26 @@ checkTask=setInterval(alertFunc, 30000);
             taskObj.task.push(document.getElementsByName("task")[0].value);
             taskObj.date.push(document.getElementsByName("taskDate")[0].value);
             taskObj.time.push(document.getElementsByName("taskTime")[0].value);
-            taskObj.dateObj.push(convertDate());//update status
-            //console.log(taskTime);
-            //if(currentTime>taskTime)
-              //  taskObj.delayStatus=true;
-               // else taskObj.delayStatus=false;
+            var taskNewTime=convertDate();
+            taskObj.dateObj.push(taskNewTime);
+            updateDelayStatus(taskNewTime);
+            //setTimmer(taskNewTime);
         }
         function displayData(){
             var taskStringCurrent= "",taskStringDelay="",i,len=taskObj.task.length
             for(i=0;i<len;i++)
            {
-            //console.log(taskObj.delayStatus[i]);
             if(taskObj.delayStatus[i])
-            taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+taskObj.time[i]+"<br>";
+            taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+getDate(i)+"<br>";
             else
-            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+taskObj.time[i]+"<br>";
+            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+taskObj.date[i]+getDate(i)+"<br>";
            }
            document.getElementById("taskListf").innerHTML = taskStringCurrent;
            document.getElementById("taskListd").innerHTML = taskStringDelay;
            document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been modified";
         }
         function alertFunc() {
-            displayData();
-
-            //var current =new Date().getTime();
-            
+            displayData();            
             for(var i=0;i<taskObj.dateObj.length;i++)
             {
             var currentTime =new Date().getTime();
@@ -63,19 +56,12 @@ checkTask=setInterval(alertFunc, 30000);
                 taskObj.delayStatus[i]=true;
             else     
                 taskObj.delayStatus[i]=false;
-                
-            //console.log("called for "+taskObj.task[i]+"Status ="+taskObj.delayStatus[i]);
-                //if(current>taskObj.dateObj[i].getTime()){
-                 //   prompt(passed(i))
                 }
             }       
 
         function convertDate(){
             var dateString =document.getElementsByName("taskDate")[0].value+'T'+document.getElementsByName("taskTime")[0].value+':00';
             var convertDate= new Date(dateString);
-            updateDelayStatus(convertDate);
-            //console.log(convertDate);
-            //setTimeout(passed,convertDate-Date.now());
             return convertDate;
         }
         function updateDelayStatus(convertDate){
@@ -85,11 +71,31 @@ checkTask=setInterval(alertFunc, 30000);
             else     
                 taskObj.delayStatus.push(false);
 
-        //console.log(taskObj.delayStatus[0]);
         }
         function passIsDue(id){
-            return taskObj.task[id]+"is due";
+            prompt(taskObj.task[id]+"is due");
         }
-        function taskDelay(id){
+        function setTimmer(userTime){
+            if(taskObj.delayStatus(taskObj.delayStatus.length)){
+                var TimeInSeconds =new Date().getTime()
+                TimeInSeconds=TimeInSeconds-userTime.getTime();
+                setTimeout(passIsDue(taskObj.task.length),TimeInSeconds);
+                console.log(TimeInSeconds+" Timmer is called")
+
+            }
+        }
+        function getDate(id)
+        {
             
+            var currentDate =new Date().getDate();
+            var taskDateVar=new Date(taskObj.date[id]);
+            var n=taskDateVar.getDate();     
+            console.log(n);
+            if(currentDate==n)
+                return "today";
+            else if(currentDate+1==n)
+                return "tomorrow";
+            else 
+                return taskDateVar.toDateString();            
+
         }
