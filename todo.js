@@ -10,29 +10,31 @@ var taskObj={
 
 checkTask=setInterval(alertFunc, 30000);
         function addTask(){
-            getData();
-            displayData();
+            getObjData();
+            appendData();
         }; 
         function deleteTask(){
 
             let deleteValue=document.getElementsByName("taskDelete")[0].value-1;
             var list = document.getElementById("taskList");   
-            list.removeChild(list.childNodes[deleteValue]);           
-            // var deleteID=parseInt(deleteValue)-1;
-            // //console.log(deleteID);
-            // if(typeof deleteID !='number')
-            //     prompt("Enter proper ID");
-            // else {
-            //     taskObj.task.splice(deleteID,1);
-            //     taskObj.date.splice(deleteID,1);
-            //     taskObj.time.splice(deleteID,1);
-            //     taskObj.delayStatus.splice(deleteID,1);
-            //     //document.getElementById("taskList").innerHTML =`${deleteID+1}`+":"+taskObj.task[deleteID]+" Has been removed";
-            //     //displayData();
-            
+            list.removeChild(list.childNodes[deleteValue]);
+            deleteObjData(deleteValue);                      
         }
+       function deleteObjData(deleteID)
+        {
+            if(typeof deleteID !='number')
+                prompt("Enter proper ID");
+            else {
+                taskObj.task.splice(deleteID,1);
+                taskObj.date.splice(deleteID,1);
+                taskObj.time.splice(deleteID,1);
+                taskObj.dateObj.splice(deleteID,1);
+                taskObj.delayStatus.splice(deleteID,1);
+        }
+    }
+        
 
-        function getData(){
+        function getObjData(){
             taskObj.task.push(document.getElementsByName("task")[0].value);
             taskObj.date.push(document.getElementsByName("taskDate")[0].value);
             taskObj.time.push(document.getElementsByName("taskTime")[0].value);
@@ -42,7 +44,7 @@ checkTask=setInterval(alertFunc, 30000);
             //setTimmer(taskNewTime);
         }
 
-        function displayData(){
+        function appendData(){
             var taskString="",len=taskObj.task.length-1,delayString=" ";
             var node = document.createElement("li");
 
@@ -52,22 +54,9 @@ checkTask=setInterval(alertFunc, 30000);
             var textnode = document.createTextNode(taskString); 
             node.appendChild(textnode);
             document.getElementById("taskList").appendChild(node);
-
-        //    var taskStringCurrent= "",taskStringDelay="",i,len=taskObj.task.length           
-        //     for(i=0;i<len;i++)
-        //    {
-        //     if(taskObj.delayStatus[i])
-        //     taskStringDelay="<li>"+taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"</li>";
-        //     else
-        //     taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
-        //    }
-        //    document.getElementById("taskListf").innerHTML = taskStringCurrent;
-        //    document.getElementById("taskListd").innerHTML = taskStringDelay;
-        //    document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been modified";
         }
 
-        function alertFunc() {
-            displayData();            
+        function alertFunc() {          
             for(var i=0;i<taskObj.dateObj.length;i++)
             {
             var currentTime =new Date().getTime();
@@ -83,6 +72,7 @@ checkTask=setInterval(alertFunc, 30000);
             var convertDate= new Date(dateString);
             return convertDate;
         }
+
         function updateDelayStatus(convertDate){
             var currentTime =new Date().getTime();
             if(currentTime>convertDate.getTime())
@@ -94,8 +84,10 @@ checkTask=setInterval(alertFunc, 30000);
         function passIsDue(id){
             prompt(taskObj.task[id]+"is due");
         }
+
         function setTimmer(userTime){
-            if(taskObj.delayStatus(taskObj.delayStatus.length)){
+            if (taskObj.delayStatus(taskObj.delayStatus.length)){
+
                 var TimeInSeconds =new Date().getTime()
                 TimeInSeconds=TimeInSeconds-userTime.getTime();
                 setTimeout(passIsDue(taskObj.task.length),TimeInSeconds);
@@ -103,6 +95,7 @@ checkTask=setInterval(alertFunc, 30000);
 
             }
         }
+
         function getDate(id)
         {
             var current =new Date();
