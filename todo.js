@@ -15,9 +15,8 @@ checkTask=setInterval(alertFunc, 30000);
         }; 
         function deleteTask(){
 
-
             let deleteValue=document.getElementsByName("taskDelete")[0].value-1;
-            var list = document.getElementById("myList");   
+            var list = document.getElementById("taskList");   
             list.removeChild(list.childNodes[deleteValue]);           
             // var deleteID=parseInt(deleteValue)-1;
             // //console.log(deleteID);
@@ -49,7 +48,7 @@ checkTask=setInterval(alertFunc, 30000);
 
             if(!taskObj.delayStatus[len]){ console.log("Called");delayString=" DELAYED";}
             
-            taskString=`${len}`+": "+ taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len]+delayString;
+            taskString=taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len]+delayString;
             var textnode = document.createTextNode(taskString); 
             node.appendChild(textnode);
             document.getElementById("taskList").appendChild(node);
@@ -106,7 +105,6 @@ checkTask=setInterval(alertFunc, 30000);
         }
         function getDate(id)
         {
-            
             var current =new Date();
             var currentDate=current.getDate();
             var taskDateVar=new Date(taskObj.date[id]);
@@ -123,7 +121,6 @@ checkTask=setInterval(alertFunc, 30000);
                 if(currentDate==0&&taskDateVar.getMonth()==current.getMonth()+1)
                 return "tomorrow";                
             }
-
             if(taskDateVar.getMonth()==current.getMonth()&&taskDateVar.getFullYear()==current.getFullYear()){
                 if(currentDate==n)
                 return "Today"; 
