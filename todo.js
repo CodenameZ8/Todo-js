@@ -9,6 +9,7 @@ var taskObj={
 };
 
 checkTask=setInterval(alertFunc, 30000);
+
         function addTask(){
             getObjData();
             appendData();
@@ -41,14 +42,14 @@ checkTask=setInterval(alertFunc, 30000);
             var taskNewTime=convertDate();
             taskObj.dateObj.push(taskNewTime);
             updateDelayStatus(taskNewTime);
-            //setTimmer(taskNewTime);
+            setTimmer(taskNewTime);
         }
 
         function appendData(){
             var taskString="",len=taskObj.task.length-1,delayString=" ";
             var node = document.createElement("li");
 
-            if(!taskObj.delayStatus[len]){ console.log("Called");delayString=" DELAYED";}
+            if(taskObj.delayStatus[len]){ console.log("Called");delayString=" DELAYED";}
             
             taskString=taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len]+delayString;
             var textnode = document.createTextNode(taskString); 
@@ -62,7 +63,7 @@ checkTask=setInterval(alertFunc, 30000);
             var currentTime =new Date().getTime();
             if(currentTime>taskObj.dateObj[i].getTime())
                 taskObj.delayStatus[i]=true;
-            else     
+            else    
                 taskObj.delayStatus[i]=false;
                 }
             }       
@@ -82,15 +83,16 @@ checkTask=setInterval(alertFunc, 30000);
 
         }
         function passIsDue(id){
-            prompt(taskObj.task[id]+"is due");
+            prompt(taskObj.task[id]+"is due now");
         }
 
         function setTimmer(userTime){
-            if (taskObj.delayStatus(taskObj.delayStatus.length)){
+            if (!taskObj.delayStatus[taskObj.delayStatus.length-1]){
 
                 var TimeInSeconds =new Date().getTime()
-                TimeInSeconds=TimeInSeconds-userTime.getTime();
-                setTimeout(passIsDue(taskObj.task.length),TimeInSeconds);
+                TimeInSeconds-=userTime.getTime()*10;
+                console.log("Timer set for "+Math.abs(TimeInSeconds));
+                setTimeout(passIsDue(taskObj.task.length),Math.abs(TimeInSeconds));
                 console.log(TimeInSeconds+" Timmer is called")
 
             }
@@ -126,5 +128,4 @@ checkTask=setInterval(alertFunc, 30000);
                 return taskDateVar.toDateString().slice(0, -7);
             else
                 return taskDateVar.toDateString();                
-
-        }
+            }
