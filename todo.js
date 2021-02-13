@@ -82,19 +82,17 @@ checkTask=setInterval(alertFunc, 30000);
                 taskObj.delayStatus.push(false);
 
         }
-        function passIsDue(id){
-            prompt(taskObj.task[id-1]+"is due now");
-        }
+        
 
         function setTimmer(userTime){
             var len=taskObj.task.length-1;
-            
+
             if (!taskObj.delayStatus[len]){
                 var TimeInSeconds=userTime.getTime()-(new Date()).getTime();                
-                // var TimeInSeconds =new Date().getTime()
-                // TimeInSeconds-=userTime.getTime()*10;
                 console.log("Timer set for "+TimeInSeconds);
-                setTimeout(passIsDue(len),TimeInSeconds);
+                setTimeout(function passIsDue(){
+                    prompt(taskObj.task[taskObj.task.length-1]+" is due now");
+                },TimeInSeconds);
                 console.log(TimeInSeconds+" Timmer is called");
 
             }
