@@ -14,6 +14,7 @@ checkTask=setInterval(alertFunc, 30000);
         function deleteTask(){
             let deleteValue=document.getElementsByName("taskDelete")[0].value;
             var deleteID=parseInt(deleteValue)-1;
+            //console.log(deleteID);
             if(typeof deleteID !='number')
                 prompt("Enter proper ID");
             else {
@@ -21,8 +22,8 @@ checkTask=setInterval(alertFunc, 30000);
                 taskObj.date.splice(deleteID,1);
                 taskObj.time.splice(deleteID,1);
                 taskObj.delayStatus.splice(deleteID,1);
-                document.getElementById("taskList").innerHTML =`${deleteID+1}`+":"+taskObj.task[deleteID]+" Has been removed";
-                displayData();
+                //document.getElementById("taskList").innerHTML =`${deleteID+1}`+":"+taskObj.task[deleteID]+" Has been removed";
+                //displayData();
             }
         }
         function getData(){
@@ -35,17 +36,26 @@ checkTask=setInterval(alertFunc, 30000);
             //setTimmer(taskNewTime);
         }
         function displayData(){
-            var taskStringCurrent= "",taskStringDelay="",i,len=taskObj.task.length
-            for(i=0;i<len;i++)
-           {
-            if(taskObj.delayStatus[i])
-            taskStringDelay=taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
-            else
-            taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
-           }
-           document.getElementById("taskListf").innerHTML = taskStringCurrent;
-           document.getElementById("taskListd").innerHTML = taskStringDelay;
-           document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been modified";
+            var taskString="",len=taskObj.task.length-1;
+            var node = document.createElement("li");
+            taskString=`${len}`+": "+ taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len];
+            var textnode = document.createTextNode(taskString); 
+            node.appendChild(textnode);
+            if(taskObj.delayStatus[len])
+            document.getElementById("taskList").appendChild(node);
+            else document.getElementById("taskListDelayed").appendChild(node);
+
+        //    var taskStringCurrent= "",taskStringDelay="",i,len=taskObj.task.length           
+        //     for(i=0;i<len;i++)
+        //    {
+        //     if(taskObj.delayStatus[i])
+        //     taskStringDelay="<li>"+taskStringDelay+`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"</li>";
+        //     else
+        //     taskStringCurrent= taskStringCurrent +`${i+1}`+": "+ taskObj.task[i]+"  "+getDate(i)+"  "+taskObj.time[i]+"<br>";
+        //    }
+        //    document.getElementById("taskListf").innerHTML = taskStringCurrent;
+        //    document.getElementById("taskListd").innerHTML = taskStringDelay;
+        //    document.getElementById("taskList").innerHTML =`${len}`+":"+taskObj.task[len-1]+" Has been modified";
         }
         function alertFunc() {
             displayData();            
