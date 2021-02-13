@@ -8,6 +8,8 @@ var taskObj={
     delayStatus:[]
 };
 
+var SetTimerID=[];
+
 checkTask=setInterval(alertFunc, 30000);
 
         function addTask(){
@@ -88,15 +90,25 @@ checkTask=setInterval(alertFunc, 30000);
             var len=taskObj.task.length-1;
 
             if (!taskObj.delayStatus[len]){
-                var TimeInSeconds=userTime.getTime()-(new Date()).getTime();                
+                var TimeInSeconds=userTime.getTime()-(new Date()).getTime();
+                setTimmerID(len);                
                 console.log("Timer set for "+TimeInSeconds);
                 setTimeout(function passIsDue(){
-                    prompt(taskObj.task[taskObj.task.length-1]+" is due now");
+
+                    prompt(taskObj.task[getTimmerID()]+" is due now");
+                    console.log(TimeInSeconds+" Timmer is called for "+taskObj.task[len]);
                 },TimeInSeconds);
-                console.log(TimeInSeconds+" Timmer is called");
+                
 
             }
         }
+        function setTimmerID(id){
+            SetTimerID.push(id);
+        } 
+        function getTimmerID(){
+            return SetTimerID.pop();
+        }         
+        
 
         function getDate(id)
         {
