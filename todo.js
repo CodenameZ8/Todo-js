@@ -5,7 +5,8 @@ var taskObj={
     date:[],
     time:[],
     dateObj:[],
-    delayStatus:[]
+    delayStatus:[],
+    timerClear:[],
 };
 
 var SetTimerID=[];
@@ -32,7 +33,13 @@ checkTask=setInterval(alertFunc, 30000);
                 taskObj.date.splice(deleteID,1);
                 taskObj.time.splice(deleteID,1);
                 taskObj.dateObj.splice(deleteID,1);
+                if(taskObj.delayStatus)
+                {
+                    clearTimeout(taskObj.timerClear[deleteID]);
+                    console.log("Cleared Timeout");
+                }
                 taskObj.delayStatus.splice(deleteID,1);
+                taskObj.timerClear.splice(deleteID,1);
         }
     }
         
@@ -92,9 +99,8 @@ checkTask=setInterval(alertFunc, 30000);
             if (!taskObj.delayStatus[len]){
                 var TimeInSeconds=userTime.getTime()-(new Date()).getTime();
                 setTimmerID(len);                
-                console.log("Timer set for "+TimeInSeconds);
-                setTimeout(function passIsDue(){
-
+                //console.log("Timer set for "+TimeInSeconds);
+               taskObj.timerClear[len]=setTimeout(function passIsDue(){
                     prompt(taskObj.task[getTimmerID()]+" is due now");
                     console.log(TimeInSeconds+" Timmer is called for "+taskObj.task[len]);
                 },TimeInSeconds);
