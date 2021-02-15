@@ -1,4 +1,3 @@
-//var checkTask;
 var summaryObj={
     yesterday:0,
     today:0,
@@ -14,7 +13,6 @@ var taskObj={
     timerClear:[]
 };
 
-//checkTask=setInterval(alertFunc, 30000);
 
         function addTask(){
             getObjData();
@@ -39,14 +37,30 @@ var taskObj={
                 taskObj.time.splice(deleteID,1);
                 taskObj.dateObj.splice(deleteID,1);
                 if(taskObj.delayStatus)
-                {
-                    clearTimeout(taskObj.timerClear[deleteID]);
-                    //console.log("Cleared Timeout");
-                    //clearSetTimmer(deleteID);  
-                }
+                    clearTimeout(taskObj.timerClear[deleteID]);                  
                 taskObj.delayStatus.splice(deleteID,1);
                 taskObj.timerClear.splice(deleteID,1);
+
+                let stringData=getDate(taskObj.task.length-1);
+                switch(stringData) {
+                    case "Today":
+                      summaryObj.today--;
+                      displaySummary();
+                      break;
+                    case "Yesterday":
+                      summaryObj.yesterday--;
+                      displaySummary();
+                      break;
+                    case "Tomorrow":
+                        summaryObj.tomorrow--;
+                        displaySummary();
+                      break;
+                    default: break;
+                  } 
+                    
+
         }
+        
     }
         
 
@@ -72,18 +86,7 @@ var taskObj={
             var textnode = document.createTextNode(taskString); 
             node.appendChild(textnode);
             document.getElementById("taskList").appendChild(node);
-        }
-
-        // function alertFunc() {          
-        //     for(var i=0;i<taskObj.dateObj.length;i++)
-        //     {
-        //     var currentTime =new Date().getTime();
-        //     if(currentTime>taskObj.dateObj[i].getTime())
-        //         taskObj.delayStatus[i]=true;
-        //     else    
-        //         taskObj.delayStatus[i]=false;
-        //         }
-        //     }       
+        }      
 
         function convertDate(){
             var dateString =document.getElementsByName("taskDate")[0].value+'T'+document.getElementsByName("taskTime")[0].value+':00';
@@ -106,8 +109,6 @@ var taskObj={
 
             if (!taskObj.delayStatus[len]){
                 var TimeInSeconds=userTime.getTime()-(new Date()).getTime();
-                //setTimmerID(len);                
-                //console.log("Timer set for "+TimeInSeconds);
                 let taskName=taskObj.task[len];
                taskObj.timerClear[len]=setTimeout(function passIsDue(){
                     prompt(taskName+" is due now");
@@ -117,25 +118,6 @@ var taskObj={
 
             }
         }
-        // function setTimmerID(id){
-        //     SetTimerID.push(id);
-        // } 
-        // function getTimmerID(){
-        //     return SetTimerID.pop();
-        // }         
-        // function clearSetTimmer(id){
-        //     var clearid=0;
-        //     for(var i=0;i<SetTimerID.length;i++)
-        //     {
-        //         if(setTimmerID[i]==id)
-        //             clearid=setTimmerID[i];
-        //     }
-        //     for(var i=0;i<SetTimerID.length;i++)  console.log(i+" ");
-        //     console.log(clearid+"id being cleared");
-        //     taskObj.dateObj.splice(clearid,1);
-
-        // }
-
 
         function getDate(id)
         {
@@ -170,7 +152,6 @@ var taskObj={
             }
             function summaryData(){
                 let stringData=getDate(taskObj.task.length-1);
-                //console.log("called summary"+stringData);
                 switch(stringData) {
                     case "Today":
                       summaryObj.today++;
@@ -189,4 +170,11 @@ var taskObj={
                 document.getElementById("pendingToday").innerHTML="Today: "+summaryObj.today;
                 document.getElementById("pendingTomorrow").innerHTML="Tomorrow: "+summaryObj.tomorrow;
                 document.getElementById("pendingYesterday").innerHTML="Yesterday: "+summaryObj.yesterday;
+                document.getElementById("pendingDealyed").innerHTML="Delayed Task: "+delayedTask();
+            }
+            function delayedTask(){
+                let result=0;
+                for(let i=0;i<taskObj.delayStatus.length;i++)
+                    if(taskObj.delayStatus[i]) result ++;
+                return result;    
             }
