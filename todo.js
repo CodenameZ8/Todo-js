@@ -45,18 +45,17 @@ var taskObj={
                 switch(stringData) {
                     case "Today":
                       summaryObj.today--;
-                      displaySummary();
                       break;
                     case "Yesterday":
                       summaryObj.yesterday--;
-                      displaySummary();
                       break;
                     case "Tomorrow":
                         summaryObj.tomorrow--;
-                        displaySummary();
                       break;
-                    default: break;
-                  } 
+                    default: displaySummary();
+                    break;
+                  }
+                  displaySummary(); 
         }     
     }
         
