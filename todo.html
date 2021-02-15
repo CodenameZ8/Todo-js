@@ -27,6 +27,13 @@
           font-size: 35px;
           text-align: center;
         }
+
+        h4 {
+          color: rgb(1, 15, 15);
+          font-family: verdana;
+          font-size: 35px;
+          text-align: center;
+        }
         
         p {
           font-family: verdana;
@@ -40,14 +47,19 @@
         }
         </style>
 <h1>To do app</h1>
+<h4>Pending task
+  <p id="pendingYesterday"></p>
+  <p id="pendingToday"></p>
+  <p id="pendingTomorrow"></p>
+</h4>
 <p>Enter the Todo list</p>
 <div>
     <label for="task">Task</label><br>
     <input type="text" id="task" name="task" placeholder="Enter the task" value="1" >
-    <input type="date" id="taskDate" name="taskDate"placeholder="Time" value="2021-02-13" >
-    <input type="time" id="taskTime" name="taskTime" value="19:00"><br>
+    <input type="date" id="taskDate" name="taskDate"placeholder="Time" value="2021-02-15" >
+    <input type="time" id="taskTime" name="taskTime" value="15:00"><br>
     <button onclick="addTask()">Add task</button><br><br>
-    <input type="text" id="taskDelete" name="taskDelete" placeholder="Enter the task ID to be detleted">
+    <input type="text" id="taskDelete" name="taskDelete" placeholder="Enter the task ID to delete">
     <button onclick="deleteTask()">Delete task</button><br>
 
 </div>

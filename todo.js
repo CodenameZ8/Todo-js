@@ -1,4 +1,9 @@
-var checkTask;
+//var checkTask;
+var summaryObj={
+    yesterday:0,
+    today:0,
+    tomorrow:0
+}
 
 var taskObj={
     task:[],
@@ -6,17 +11,17 @@ var taskObj={
     time:[],
     dateObj:[],
     delayStatus:[],
-    timerClear:[],
+    timerClear:[]
 };
 
-var SetTimerID=[];
-
-checkTask=setInterval(alertFunc, 30000);
+//checkTask=setInterval(alertFunc, 30000);
 
         function addTask(){
             getObjData();
             appendData();
-        }; 
+            summaryData();
+        }
+
         function deleteTask(){
 
             let deleteValue=document.getElementsByName("taskDelete")[0].value-1;
@@ -36,7 +41,8 @@ checkTask=setInterval(alertFunc, 30000);
                 if(taskObj.delayStatus)
                 {
                     clearTimeout(taskObj.timerClear[deleteID]);
-                    console.log("Cleared Timeout");
+                    //console.log("Cleared Timeout");
+                    //clearSetTimmer(deleteID);  
                 }
                 taskObj.delayStatus.splice(deleteID,1);
                 taskObj.timerClear.splice(deleteID,1);
@@ -58,7 +64,9 @@ checkTask=setInterval(alertFunc, 30000);
             var taskString="",len=taskObj.task.length-1,delayString=" ";
             var node = document.createElement("li");
 
-            if(taskObj.delayStatus[len]){ console.log("Called");delayString=" DELAYED";}
+            if(taskObj.delayStatus[len]){ //console.log("Called");
+            node.style.color="red"; 
+            delayString=" DELAYED";}
             
             taskString=taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len]+delayString;
             var textnode = document.createTextNode(taskString); 
@@ -66,16 +74,16 @@ checkTask=setInterval(alertFunc, 30000);
             document.getElementById("taskList").appendChild(node);
         }
 
-        function alertFunc() {          
-            for(var i=0;i<taskObj.dateObj.length;i++)
-            {
-            var currentTime =new Date().getTime();
-            if(currentTime>taskObj.dateObj[i].getTime())
-                taskObj.delayStatus[i]=true;
-            else    
-                taskObj.delayStatus[i]=false;
-                }
-            }       
+        // function alertFunc() {          
+        //     for(var i=0;i<taskObj.dateObj.length;i++)
+        //     {
+        //     var currentTime =new Date().getTime();
+        //     if(currentTime>taskObj.dateObj[i].getTime())
+        //         taskObj.delayStatus[i]=true;
+        //     else    
+        //         taskObj.delayStatus[i]=false;
+        //         }
+        //     }       
 
         function convertDate(){
             var dateString =document.getElementsByName("taskDate")[0].value+'T'+document.getElementsByName("taskTime")[0].value+':00';
@@ -98,23 +106,36 @@ checkTask=setInterval(alertFunc, 30000);
 
             if (!taskObj.delayStatus[len]){
                 var TimeInSeconds=userTime.getTime()-(new Date()).getTime();
-                setTimmerID(len);                
+                //setTimmerID(len);                
                 //console.log("Timer set for "+TimeInSeconds);
+                let taskName=taskObj.task[len];
                taskObj.timerClear[len]=setTimeout(function passIsDue(){
-                    prompt(taskObj.task[getTimmerID()]+" is due now");
-                    console.log(TimeInSeconds+" Timmer is called for "+taskObj.task[len]);
+                    prompt(taskName+" is due now");
+                    console.log(TimeInSeconds+" Timmer is called for "+taskName);
                 },TimeInSeconds);
                 
 
             }
         }
-        function setTimmerID(id){
-            SetTimerID.push(id);
-        } 
-        function getTimmerID(){
-            return SetTimerID.pop();
-        }         
-        
+        // function setTimmerID(id){
+        //     SetTimerID.push(id);
+        // } 
+        // function getTimmerID(){
+        //     return SetTimerID.pop();
+        // }         
+        // function clearSetTimmer(id){
+        //     var clearid=0;
+        //     for(var i=0;i<SetTimerID.length;i++)
+        //     {
+        //         if(setTimmerID[i]==id)
+        //             clearid=setTimmerID[i];
+        //     }
+        //     for(var i=0;i<SetTimerID.length;i++)  console.log(i+" ");
+        //     console.log(clearid+"id being cleared");
+        //     taskObj.dateObj.splice(clearid,1);
+
+        // }
+
 
         function getDate(id)
         {
@@ -146,4 +167,26 @@ checkTask=setInterval(alertFunc, 30000);
                 return taskDateVar.toDateString().slice(0, -7);
             else
                 return taskDateVar.toDateString();                
+            }
+            function summaryData(){
+                let stringData=getDate(taskObj.task.length-1);
+                //console.log("called summary"+stringData);
+                switch(stringData) {
+                    case "Today":
+                      summaryObj.today++;
+                      console.log(summaryObj.today+" is for today");
+                      break;
+                    case "Yesterday":
+                      summaryObj.yesterday++;
+                      break;
+                    case "Tomorrow":
+                        summaryObj.tomorrow++;
+                      break;
+                  } 
+                    displaySummary();       
+            }
+            function displaySummary(){
+                document.getElementById("pendingToday").innerHTML="Today: "+summaryObj.today;
+                document.getElementById("pendingTomorrow").innerHTML="Tomorrow: "+summaryObj.tomorrow;
+                document.getElementById("pendingYesterday").innerHTML="Yesterday: "+summaryObj.yesterday;
             }
