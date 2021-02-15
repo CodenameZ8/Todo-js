@@ -57,10 +57,7 @@ var taskObj={
                       break;
                     default: break;
                   } 
-                    
-
-        }
-        
+        }     
     }
         
 
