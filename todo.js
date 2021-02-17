@@ -14,15 +14,24 @@ var taskObj={
 };
 
 
+
+
         function addTask(){
             getObjData();
             appendData();
             summaryData();
         }
 
-        function deleteTask(){
+        function deleteTask(deleteValue){
+            console.log(deleteValue);
+            if(deleteValue==undefined){
 
-            let deleteValue=document.getElementsByName("taskDelete")[0].value-1;
+                deleteValue=document.getElementsByName("taskDelete")[0].value-1;
+                console.log(deleteValue);
+            }
+            else 
+                deleteValue--;
+                
             var list = document.getElementById("taskList");   
             list.removeChild(list.childNodes[deleteValue]);
             deleteObjData(deleteValue);                      
@@ -70,17 +79,27 @@ var taskObj={
             setTimmer(taskNewTime);
         }
 
-        function appendData(){
+        function appendData(){  
             var taskString="",len=taskObj.task.length-1,delayString=" ";
             var node = document.createElement("li");
+            var nodeButton = document.createElement("button");
+            node.addEventListener("mouseover",mouseOver);
+            node.addEventListener("mouseout",mouseOut);
+            nodeButton.addEventListener("mouseover",mouseOver);
+            nodeButton.addEventListener("mouseout",mouseOut);
+            nodeButton.addEventListener("click",listDelete);
+            nodeButton.innerText="delete";
+            nodeButton.style.visibility="hidden";
 
-            if(taskObj.delayStatus[len]){ //console.log("Called");
-            node.style.color="red"; 
-            delayString=" DELAYED";}
+            if(taskObj.delayStatus[len]){ 
+                 node.style.color="red"; 
+                 delayString=" DELAYED ";
+            }
             
-            taskString=taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len]+delayString;
+            taskString=taskObj.task[len]+"  "+getDate(len)+"  "+taskObj.time[len]+delayString+" ";
             var textnode = document.createTextNode(taskString); 
             node.appendChild(textnode);
+            node.appendChild(nodeButton);
             document.getElementById("taskList").appendChild(node);
         }      
 
@@ -174,3 +193,47 @@ var taskObj={
                     if(taskObj.delayStatus[i]) result ++;
                 return result;    
             }
+            function mouseOver(e){
+                if(e.target.tagName == "LI"){
+                    let node=e.target;
+                    let buttonShow=node.childNodes[1];
+                    buttonShow.style.visibility="visible";
+                }
+                else if(e.target.tagName == "BUTTON")
+                {
+                    let node=e.target;
+                    node.style.visibility="visible";
+                }
+                    
+            }
+
+            function mouseOut(e){
+                if(e.target.tagName == "LI"){
+                    let node=e.target;
+                    buttonShow=node.childNodes[1];
+                    buttonShow.style.visibility="hidden";
+                }
+                else if(e.target.tagName == "BUTTON"){
+                    let node=e.target;
+                    node.style.visibility="hidden";
+                    
+                }
+                    
+            }
+            function listDelete(e){
+                if(e.target.tagName == "BUTTON"){
+                    let node=e.target.parentElement;
+                    //console.log(node);
+                    let index=1;
+                    while(node.previousElementSibling){
+                        node=node.previousElementSibling;
+                        index++;
+                    }
+                    
+                    deleteTask(index);
+
+                    
+                }
+            }
+                
+                    
